@@ -1,15 +1,25 @@
 import os
 import json
-from openai import OpenAI
+
 from dotenv import load_dotenv
+from openai import OpenAI
 
 from prompts import create_quiz_prompt
 
+
+# Load backend/.env
 load_dotenv()
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
+# Read API key
+api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    raise ValueError(
+        "OPENAI_API_KEY is missing. Check backend/.env"
+    )
+
+# Create OpenAI client
+client = OpenAI(api_key=api_key)
 
 
 def generate_quiz(topic, difficulty, number_of_questions):
@@ -26,5 +36,8 @@ def generate_quiz(topic, difficulty, number_of_questions):
     )
 
     result = response.output_text
+
+    print("AI RESPONSE:")
+    print(result)
 
     return json.loads(result)
