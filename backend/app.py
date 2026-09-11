@@ -11,12 +11,8 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5177",
-        "http://localhost:5178",
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "http://localhost:5175",
-        "http://localhost:5176",
+         "https://ai-quiz-generator-lake-five.vercel.app"
+
     ],
     allow_credentials=True,
     allow_methods=["*"],
