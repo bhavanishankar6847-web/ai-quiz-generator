@@ -7,12 +7,13 @@ from ai import generate_quiz
 app = FastAPI()
 
 
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://localhost:5173",
-    "http://localhost:5174",
-],
+        "http://localhost:5177",
+        "http://localhost:5178",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,11 +32,21 @@ def generate_quiz_api(data: dict):
 
     try:
         topic = data.get("topic")
-        difficulty = data.get("difficulty", "medium")
+
+        difficulty = data.get(
+            "difficulty",
+            "medium"
+        )
+
         number_of_questions = data.get(
             "number_of_questions",
             2
         )
+
+        if not topic:
+            return {
+                "error": "Topic is required"
+            }
 
         quiz = generate_quiz(
             topic,
@@ -51,6 +62,7 @@ def generate_quiz_api(data: dict):
         }
 
     except Exception as e:
+
         print("ERROR:", repr(e))
 
         return {
